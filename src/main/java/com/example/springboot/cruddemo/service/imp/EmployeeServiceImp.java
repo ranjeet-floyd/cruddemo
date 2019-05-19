@@ -1,7 +1,7 @@
 package com.example.springboot.cruddemo.service.imp;
 
-import com.example.springboot.cruddemo.dao.EmployeeDAO;
 import com.example.springboot.cruddemo.entity.Employee;
+import com.example.springboot.cruddemo.repo.EmployeeRepository;
 import com.example.springboot.cruddemo.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,32 +13,33 @@ import java.util.List;
 public class EmployeeServiceImp implements EmployeeService {
 
 
-    private EmployeeDAO employeeDAO;
+    private EmployeeRepository employeeRepository;
+
 
     @Autowired
-    public EmployeeServiceImp(EmployeeDAO employeeDAO) {
-        this.employeeDAO = employeeDAO;
+    public EmployeeServiceImp(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
     @Override
     public List<Employee> findAll() {
-        return employeeDAO.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(int id) {
-        return employeeDAO.findById(id);
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
     public void save(Employee employee) {
-        employeeDAO.save(employee);
+        employeeRepository.save(employee);
     }
 
     @Override
     @Transactional
     public void deleteById(int id) {
-        employeeDAO.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 }
